@@ -48,8 +48,8 @@ def apply_gaussian_filter_to_images(input_folder, output_folder, sigma):
             apply_gaussian_filter(input_image_path, output_folder, sigma)
 
 
-input_folder_path = '/content/images1'
-output_folder_path = '/content/images1'
+input_folder_path = '/content/images1' # You can change the path accordingly - just the path of the folder with images
+output_folder_path = '/content/images1' # You can change the path accordingly - just the path of the folder with images
 sigma = 1.5
 
 apply_gaussian_filter_to_images(input_folder_path, output_folder_path, sigma)

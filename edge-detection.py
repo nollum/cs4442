@@ -44,8 +44,8 @@ def apply_edge_detection_to_images(input_folder, output_folder, low_threshold, h
             # Save the image with edges
             edges_image.save(output_image_path)
 
-input_folder_path = '/content/images1'
-output_folder_path = '/content/images1'
+input_folder_path = '/content/images1' # You can change the path accordingly - just the path of the folder with images
+output_folder_path = '/content/images1' # You can change the path accordingly - just the path of the folder with images
 low_threshold = 50
 high_threshold = 150
 

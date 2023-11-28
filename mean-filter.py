@@ -67,8 +67,8 @@ def apply_mean_filter_to_images(input_folder, output_folder, kernel_size):
             apply_mean_filter(input_image_path, output_folder, kernel_size)
 
 
-input_folder_path = '/content/images1'
-output_folder_path = '/content/images1'
+input_folder_path = '/content/images1' # You can change the path accordingly - just the path of the folder with images
+output_folder_path = '/content/images1' # You can change the path accordingly - just the path of the folder with images
 kernel_size = 3
 
 apply_mean_filter_to_images(input_folder_path, output_folder_path, kernel_size)
