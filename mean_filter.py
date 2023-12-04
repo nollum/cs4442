@@ -5,12 +5,12 @@ from scipy.ndimage import convolve
 
 ################################################################################
 ################### MEAN FILTER ############################################
-def apply_mean_filter(image_path, output_folder, kernel_size):
+def apply_mean_filter(image, kernel_size):
     # Open the image file
-    original_image = Image.open(image_path)
+    # original_image = Image.open(image_path)
 
     # Convert the image to a NumPy array
-    image_array = np.array(original_image)
+    image_array = np.array(image)
 
     # Apply mean filter
     filtered_image_array = apply_mean_filter_numpy(image_array, kernel_size)
@@ -19,11 +19,12 @@ def apply_mean_filter(image_path, output_folder, kernel_size):
     filtered_image = Image.fromarray(filtered_image_array)
 
     # Create the output path
-    filename = os.path.basename(image_path)
-    output_image_path = os.path.join(output_folder, filename)
+    # filename = os.path.basename(image_path)
+    # output_image_path = os.path.join(output_folder, filename)
 
     # Save the filtered image
-    filtered_image.save(output_image_path)
+    # filtered_image.save(output_image_path)
+    return filtered_image
 
 def apply_mean_filter_numpy(image_array, kernel_size):
     if len(image_array.shape) == 3:  # Color image
@@ -52,24 +53,24 @@ def apply_mean_filter_numpy(image_array, kernel_size):
 
     return filtered_image.astype(np.uint8)
 
-def apply_mean_filter_to_images(input_folder, output_folder, kernel_size):
-    # Create the output folder if it doesn't exist
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+# def apply_mean_filter_to_images(input_folder, output_folder, kernel_size):
+#     # Create the output folder if it doesn't exist
+#     if not os.path.exists(output_folder):
+#         os.makedirs(output_folder)
 
-    # Iterate over each file in the input folder
-    for filename in os.listdir(input_folder):
-        if filename.endswith(".jpg") or filename.endswith(".png"):
-            # Read the image
-            input_image_path = os.path.join(input_folder, filename)
+#     # Iterate over each file in the input folder
+#     for filename in os.listdir(input_folder):
+#         if filename.endswith(".jpg") or filename.endswith(".png"):
+#             # Read the image
+#             input_image_path = os.path.join(input_folder, filename)
 
-            # Apply mean filter
-            apply_mean_filter(input_image_path, output_folder, kernel_size)
+#             # Apply mean filter
+#             apply_mean_filter(input_image_path, output_folder, kernel_size)
 
 
-input_folder_path = '/content/images1' # You can change the path accordingly - just the path of the folder with images
-output_folder_path = '/content/images1' # You can change the path accordingly - just the path of the folder with images
-kernel_size = 3
+# input_folder_path = '/content/images1' # You can change the path accordingly - just the path of the folder with images
+# output_folder_path = '/content/images1' # You can change the path accordingly - just the path of the folder with images
+# kernel_size = 3
 
-apply_mean_filter_to_images(input_folder_path, output_folder_path, kernel_size)
+# apply_mean_filter_to_images(input_folder_path, output_folder_path, kernel_size)
 #################################################################################
