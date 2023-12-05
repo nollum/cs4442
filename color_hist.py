@@ -1,31 +1,20 @@
-import cv2 
-import matplotlib.pyplot as plt 
+import skimage.io
+import skimage.color
+import numpy as np
 
-image = cv2.imread('salad.jpg') 
+def color_hist_feature_extraction(image):
+    # convert image to RGB if not already in that format
+    if image.shape[-1] == 1:
+        image_rgb = skimage.color.gray2rgb(image)
+    else:
+        image_rgb = image
 
-# Display the original image
-plt.figure(1)
-plt.title("Original Image") 
-plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB)) 
+    channels = skimage.color.rgb2xyz(image_rgb)[:, :, :3]  # Extract RGB channels
+    channel_names = ("Red", "Green", "Blue")
 
-image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    features = []
+    for (channel, name) in zip(channels.transpose((2, 0, 1)), channel_names):
+        hist = np.histogram(channel, bins=256, range=(0, 256))[0]
+        features.extend(hist.flatten())
 
-channels = cv2.split(image_hsv)
-channel_names = ("Hue", "Saturation", "Value")
-
-plt.figure(2)
-plt.title("HSV Color Histogram")
-plt.xlabel("Bins")
-plt.ylabel("# of Pixels")
-features = []
-
-for (channel, name) in zip(channels, channel_names):
-    hist = cv2.calcHist([channel], [0], None, [256], [0, 256])
-    features.extend(hist.flatten())
-    
-    plt.plot(hist, label=name)
-
-plt.legend()  
-plt.xlim([0, 256])
-plt.show()
-
+    return features

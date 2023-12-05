@@ -1,14 +1,45 @@
-from sklearn import datasets
-from sklearn import svm
-from sklearn import metrics
-from sklearn.model_selection import train_test_split 
+from pathlib import Path
+from sklearn import svm, metrics
+from sklearn.utils import Bunch
+from sklearn.model_selection import train_test_split
+from skimage.io import imread
+from skimage.color import rgb2hsv
+import numpy as np
+from color_hist import color_hist_feature_extraction
+from lbp import lbp_feature_extraction
+from hog import hog_feature_extraction
 
-cancer = datasets.load_breast_cancer()
+descr = "An image classification dataset"
+features = []
+target = []
 
-print("Features: ", cancer.feature_names)
+container_path = './train_filtered'
+image_dir = Path(container_path)
+folders = [directory for directory in image_dir.iterdir() if directory.is_dir()]
+categories = [fo.name for fo in folders]
 
-X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, test_size=0.3,random_state=109) # 70% training and 30% test
-clf = svm.SVC(kernel='linear') # Linear Kernel
+for i, direc in enumerate(folders):
+    for file in direc.iterdir():
+        img = imread(file)
+        hist_features = color_hist_feature_extraction(img)
+        lbp_features = lbp_feature_extraction(img)
+        hog_features = hog_feature_extraction(img)
+        combined_features = np.concatenate((hist_features, lbp_features, hog_features))
+        features.append(combined_features)
+        target.append(i)
+
+features = np.array(features)
+target = np.array(target)
+
+image_dataset = Bunch(data=features,
+                      target=target,
+                      target_names=categories,
+                      DESCR=descr)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    image_dataset.data, image_dataset.target, test_size=0.3, random_state=109)
+
+clf = svm.SVC(kernel='linear')
 clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 

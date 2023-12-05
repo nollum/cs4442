@@ -8,7 +8,6 @@ def grayscale(image):
 def thresholded(center, pixels):
     thresholded_pixels = []
     for a_pixel in pixels:
-        print(a_pixel, center)
         if a_pixel >= center:
             thresholded_pixels.append(1)
         else:
@@ -53,16 +52,24 @@ def display_lbp(image, lbp):
 
     plt.show()
 
-image_path = '124_Image_81.jpeg'
-image = cv2.imread(image_path)
-gray_image = grayscale(image)
+def lbp_feature_extraction(image):
+    gray_image = grayscale(image)
+    lbp_image = compute_lbp(gray_image)
+    flattened_lbp = lbp_image.flatten()
+    
+    return flattened_lbp
 
-lbp_image = compute_lbp(gray_image)
-display_lbp(gray_image, lbp_image)
+# print(lbp_feature_extraction('./train_filtered/vegetarian/1_Image_10.jpg').shape)
+# image_path = '124_Image_81.jpeg'
+# image = cv2.imread(image_path)
+# gray_image = grayscale(image)
 
-flattened_lbp = lbp_image.flatten()
-plt.hist(flattened_lbp, bins=256, range=[0, 256], density=True, cumulative=False)
-plt.title('LBP Histogram')
-plt.xlabel('LBP Value')
-plt.ylabel('Frequency')
-plt.show()
+# lbp_image = compute_lbp(gray_image)
+# display_lbp(gray_image, lbp_image)
+
+# flattened_lbp = lbp_image.flatten()
+# plt.hist(flattened_lbp, bins=256, range=[0, 256], density=True, cumulative=False)
+# plt.title('LBP Histogram')
+# plt.xlabel('LBP Value')
+# plt.ylabel('Frequency')
+# plt.show()
