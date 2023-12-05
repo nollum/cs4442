@@ -8,6 +8,7 @@ import numpy as np
 from color_hist import color_hist_feature_extraction
 from lbp import lbp_feature_extraction
 from hog import hog_feature_extraction
+from sklearn.preprocessing import StandardScaler
 
 descr = "An image classification dataset"
 features = []
@@ -31,7 +32,10 @@ for i, direc in enumerate(folders):
 features = np.array(features)
 target = np.array(target)
 
-image_dataset = Bunch(data=features,
+scaler = StandardScaler()
+features_standardized = scaler.fit_transform(features)
+
+image_dataset = Bunch(data=features_standardized,
                       target=target,
                       target_names=categories,
                       DESCR=descr)

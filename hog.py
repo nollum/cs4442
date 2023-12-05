@@ -12,8 +12,8 @@ def hog_feature_extraction(image):
                                     channel_axis=-1)
 
     #This is just for visualization, we only need to store hogFeatureVector
-    hogExampleImage = exposure.rescale_intensity(hogImage, in_range=(0,10))
-    imshow(hogExampleImage)
+    # hogExampleImage = exposure.rescale_intensity(hogImage, in_range=(0,10))
+    # imshow(hogExampleImage)
 
     #the feature of the image
     return hogFeatureVector
