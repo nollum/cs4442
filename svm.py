@@ -9,12 +9,13 @@ from color_hist import color_hist_feature_extraction
 from lbp import lbp_feature_extraction
 from hog import hog_feature_extraction
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import cross_val_score
 
 descr = "An image classification dataset"
 features = []
 target = []
 
-container_path = './train_filtered'
+container_path = './data_filtered'
 image_dir = Path(container_path)
 folders = [directory for directory in image_dir.iterdir() if directory.is_dir()]
 categories = [fo.name for fo in folders]
@@ -44,7 +45,13 @@ X_train, X_test, y_train, y_test = train_test_split(
     image_dataset.data, image_dataset.target, test_size=0.3, random_state=109)
 
 clf = svm.SVC(kernel='linear')
-clf.fit(X_train, y_train)
-y_pred = clf.predict(X_test)
+cv_scores = cross_val_score(clf, image_dataset.data, image_dataset.target, cv=5)
 
-print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
+print("Cross-Validation Scores:", cv_scores)
+print("Average Accuracy:", np.mean(cv_scores))
+
+# clf = svm.SVC(kernel='linear')
+# clf.fit(X_train, y_train)
+# y_pred = clf.predict(X_test)
+
+# print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
